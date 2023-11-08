@@ -18,6 +18,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::prefix('v1')->group(function () {
+    Route::resource('search', \App\Http\Controllers\SearchMidController::class);
+    Route::resource('blog-post', \App\Http\Controllers\BlogPostController::class);
+});
 
-Route::resource('search', \App\Http\Controllers\SearchMidController::class);
+
 Route::resource('search-log', \App\Http\Controllers\SearchLogController::class);
