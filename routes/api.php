@@ -25,6 +25,12 @@ Route::prefix('v1')->group(function () {
         return response()->json(['OK']);
     });
     Route::post('login', \App\Http\Controllers\TokenLoginController::class);
+
+    Route::middleware('auth:sanctum')->post('/logout', \App\Http\Controllers\LogoutController::class);
+
+    Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+        return $request->user();
+    });
 });
 
 
