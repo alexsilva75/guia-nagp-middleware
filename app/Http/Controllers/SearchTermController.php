@@ -2,24 +2,30 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\SearchKeyWord;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
 
-class CategoryController extends Controller
+class SearchTermController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-
-        $queryUrl = env('WP_BASE_URL', 'https://nagp.alexsilvapro.com.br/wp-json/wp/v2/');
-        $response = Http::get($queryUrl . 'categories?per_page=100');
-
-        return $response;
+        $term = $request->term;
     }
 
+    public function byFirstLetter(Request $request)
+    {
+        //
+        $letter = $request->letter;
+
+
+        $result = SearchKeyWord::where('search_term', 'like', $letter . '%')->orWhere('key_word', 'like', $letter . '%')->get();
+
+        return response()->json($result);
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -58,6 +64,13 @@ class CategoryController extends Controller
     public function update(Request $request, string $id)
     {
         //
+
+        $searchTerm = SearchKeyWord::find($id);
+        $searchTerm->key_word = $request->key_word;
+
+        $searchTerm->update();
+
+        return response()->json(['searchTerm' => $searchTerm], 204);
     }
 
     /**

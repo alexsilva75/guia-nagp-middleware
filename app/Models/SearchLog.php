@@ -10,5 +10,5 @@ class SearchLog extends Model
     use HasFactory;
 
     protected $table = "search_log";
-    protected $fillable = ['search_term', 'search_date'];
+    protected $fillable = ['search_term'];
 }

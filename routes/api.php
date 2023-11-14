@@ -22,10 +22,15 @@ Route::prefix('v1')->group(function () {
     Route::resource('search', \App\Http\Controllers\SearchMidController::class);
     Route::resource('blog-post', \App\Http\Controllers\BlogPostController::class);
     Route::resource('categories', \App\Http\Controllers\CategoryController::class);
+    Route::resource('term', \App\Http\Controllers\SearchTermController::class);
     Route::get('home', function () {
         return response()->json(['OK']);
     });
+
+    Route::get('by-category/{id}', [\App\Http\Controllers\SearchMidController::class, 'fetchByCategory']);
+    Route::get('term', [\App\Http\Controllers\SearchTermController::class, 'byFirstLetter']);
     Route::post('login', \App\Http\Controllers\TokenLoginController::class);
+
 
     Route::middleware('auth:sanctum')->post('/logout', \App\Http\Controllers\LogoutController::class);
 
