@@ -3,37 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Http;
-use App\Models\SearchKeyWord;
-use App\Models\SearchLog;
 
-
-class SearchMidController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request): JsonResponse | array
+    public function index()
     {
         //
-        $search = $request->query("search");
+        $queryUrl = env('WP_BASE_URL', 'https://nagp.alexsilvapro.com.br/wp-json/wp/v2/');
+        $response = Http::get($queryUrl . 'categories');
 
-        $searchKeyWords = SearchKeyWord::where("search_term", "$search")->get("key_word");
-
-        if (count($searchKeyWords) === 0) {
-            SearchKeyWord::create(['search_term' => $search, 'key_word' => $search]);
-            $searchKeyWords[] = ['key_word' => $search];
-        }
-
-        $queryUrl = env('WP_BASE_URL', 'https://nagp.alexsilvapro.com.br/wp-json/wp/v2/') . 'posts/?search=' . $searchKeyWords[0]['key_word'];
-
-        $response = Http::get($queryUrl);
-
-        error_log('Performed Query: ' . $queryUrl);
-
-        return $response->json(); //response()->json(['search' => $search, 'result' => $searchKeyWords], Response::HTTP_OK);
+        return $response;
     }
 
     /**

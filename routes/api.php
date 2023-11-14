@@ -21,6 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::prefix('v1')->group(function () {
     Route::resource('search', \App\Http\Controllers\SearchMidController::class);
     Route::resource('blog-post', \App\Http\Controllers\BlogPostController::class);
+    Route::resource('categories', \App\Http\Controllers\CategoryController::class);
     Route::get('home', function () {
         return response()->json(['OK']);
     });
