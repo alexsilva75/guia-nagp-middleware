@@ -30,7 +30,7 @@ class SearchMidController extends Controller
         SearchLog::create(['search_term' => $search]);
 
 
-        $queryUrl = env('WP_BASE_URL', 'https://nagp.alexsilvapro.com.br/wp-json/wp/v2/') . 'posts/?search=' . $searchKeyWords[0]['key_word'];
+        $queryUrl = env('WP_BASE_URL', 'https://nagp.alexsilvapro.com.br/wp-json/wp/v2/') . 'posts/?search=' . $searchKeyWords[0]['key_word'] . '&orderby=title&order=asc';
 
         $response = Http::get($queryUrl);
 
